@@ -1,0 +1,49 @@
+{% extends "learning_logs/base.html" %}
+{% block page_header %}
+
+<p class="display-4">Update Profile</p>
+<hr />
+<form class="card-body" action="{% url 'learning_logs:update_profile' %}" method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-2">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+        </div>
+        <div class="d-flex align-items-end">
+            <input name="profile_pic" type="file" placeholder="Upload a new profile pic" class="mb-3">
+        </div>
+    </div>
+
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <p class="mb-0">First Name</p>
+        </div>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" name="first_name" id="first_name" required value="{{request.user.first_name}}" placeholder="Enter your first name">
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <p class="mb-0">Last Name</p>
+        </div>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" name="last_name" id="last_name" required value="{{request.user.last_name}}" placeholder="Enter your last name">
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <p class="mb-0">Email</p>
+        </div>
+        <div class="col-sm-9">
+            <input type="email" class="form-control" name="email" id="email" required value="{{request.user.email}}" placeholder="Enter your email">
+        </div>
+    </div>
+    <hr>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary">Save</button>
+    </div>
+</form>
+{% endblock page_header %}
