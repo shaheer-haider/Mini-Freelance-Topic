@@ -1,21 +1,43 @@
 {% extends "learning_logs/base.html" %}
 
 {% block page_header %}
+<div class="d-flex justify-content-between">
     <h1>Topics</h1>
+    <a href="{% url 'learning_logs:new_topic' %}">
+        <button type="button" class="btn btn-primary">
+            Add a new topic
+        </button>
+    </a>
+</div>
+
 {% endblock page_header %}
 
 {% block content %}
 
-<ul>
+<ul class="d-flex flex-wrap list-none">
     {% for topic in topics %}
-    <li><h3>
-        <a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a>
-    </h3></li>
+    <li class="list-group-item">
+        <a href="{% url 'learning_logs:topic' topic.id %}">
+        <div class="card" style="width: 18rem;">
+            {% if topic.image %}
+                <img style="aspect-ratio: 3/2" class="card-img-top" src="{{topic.image.url}}">
+            {% else %}
+                <img class="card-img-top" src="https://placehold.co/600x400">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title text-capitalize">
+                    {{ topic }}
+                </h5>
+            </div>
+        </div>
+        </a>
+    </li>
     {% empty %}
-        <li><h3>No topics have been added yet.</h3></li>
+    <li>
+        <h3>No topics have been added yet.</h3>
+    </li>
     {% endfor %}
 </ul>
 
-<h3><a href="{% url 'learning_logs:new_topic' %}">Add a new topic</a></h3>
 
 {% endblock content %}

@@ -15,19 +15,35 @@
     <hr />
 
 {% if not request.user.is_anonymous %}
-<h1>Today's Topics</h1>
+<h1 class="ml-5 mt-5 mb-4">Today's Topics</h1>
 
-<ul>
+<ul class="d-flex flex-wrap list-none">
     {% for topic in topics %}
-    <li><h3>
-        <a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a>
-    </h3></li>
+    <li class="list-group-item">
+        <a href="{% url 'learning_logs:topic' topic.id %}">
+        <div class="card" style="width: 18rem;">
+            {% if topic.image %}
+                <img style="aspect-ratio: 3/2" class="card-img-top" src="{{topic.image.url}}">
+            {% else %}
+                <img class="card-img-top" src="https://placehold.co/150x150">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title text-capitalize">
+                    {{ topic }}
+                </h5>
+            </div>
+        </div>
+    </a>
+    </li>
     {% empty %}
-        <li><h3>No topics have been added yet.</h3></li>
+    <li>
+        <h3>No topics have been added yet.</h3>
+    </li>
     {% endfor %}
 </ul>
-
-<a class="btn btn-lg btn-primary" href="{% url 'learning_logs:topics' %}" role="button">View All Topics&raquo;</a>
+<div class="ml-5">
+    <a class="btn btn-lg btn-primary" href="{% url 'learning_logs:topics' %}" role="button">View All Topics&raquo;</a>
+</div>
 {% endif %}
 
 {% endblock page_header %}

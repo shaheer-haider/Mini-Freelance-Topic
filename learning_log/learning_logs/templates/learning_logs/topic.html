@@ -1,26 +1,52 @@
 {% extends "learning_logs/base.html" %}
 
 {% block page_header %}
-    <h3>{{ topic }}</h3>
+<div class="d-flex justify-content-between">
+    <h3>Topic: {{ topic }}</h3>
+    {% if topic.image %}
+    <img class="img-fluide" style="max-width: 300px" src="{{topic.image.url}}" />
+    {% else %}
+    <img class="img-fluide" style="max-width: 300px" src="https://placehold.co/600x400" />
+    {% endif %}
+</div>
 {% endblock page_header %}
 
 {% block content %}
-    <p>
-        <a href="{% url 'learning_logs:new_entry' topic.id %}">Add new entry</a>
-    </p>
-    
+<p>
+    <a href="{% url 'learning_logs:new_entry' topic.id %}">
+        <button class="btn btn-primary">Add new entry</button>
+    </a>
+    <a href="{% url 'learning_logs:delete_topic' topic.id %}">
+        <button class="btn btn-danger">Delete Topic</button>
+    </a>
+</p>
+
 {% for entry in entries %}
-    <div class="card mb-3">
-        <h4 class="card-header">
-            {{ entry.date_added|date:'M d, Y' }}
-            <small><a href="{% url 'learning_logs:edit_entry' entry.id %}">edit entry</a></small>
-        </h4>
-        <div class="card-body">
-            {{ entry.text|linebreaks }}
+<div class="card mb-3">
+    <h4 class="card-header d-flex justify-content-between">
+        {{ entry.date_added|date:'M d, Y' }}
+        <div>
+
+            <a href="{% url 'learning_logs:delete_entry' entry.id %}">
+                <button class="btn btn-danger"><small>Delete Entry</small></button>
+            </a>
+
+            <a href="{% url 'learning_logs:edit_entry' entry.id %}">
+                <button class="btn btn-primary"><small>Edit Entry</small></button>
+            </a>
+
+            {% if entry.document %}
+            <a href="{{entry.document.url}}" download><button class="btn btn-success"><small>Download
+                        Document</small></button></a>
+            {% endif %}
         </div>
+    </h4>
+    <div class="card-body">
+        {{ entry.text|linebreaks }}
     </div>
+</div>
 {% empty %}
-    <p>There are no entries for this topic yet.</p>
+<p>There are no entries for this topic yet.</p>
 {% endfor %}
 
 {% endblock content %}
